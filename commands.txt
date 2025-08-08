@@ -1,1 +1,73 @@
+🔐 CYBERSECURITY TASK 4
+✅ Setup and Use a Firewall on Kali Linux using UFW
+🔧 Tools Required:
+Kali Linux in VMware
 
+UFW (comes preinstalled in most cases)
+
+⚙️ Step-by-Step Implementation on Kali Linux (UFW)
+🔹 Step 1: Open Terminal and Check UFW Installation
+sudo ufw status
+If it's not installed, install UFW:
+
+sudo apt update
+sudo apt install ufw
+🔹 Step 2: Enable UFW
+sudo ufw enable
+⚠️ Note: You may be warned that enabling UFW could disrupt current SSH connections. If you're using SSH, make sure to allow port 22 first (Step 5).
+
+🔹 Step 3: List Current Firewall Rules
+sudo ufw status numbered
+🔹 Step 4: Add Rule to Block Inbound Traffic on Port 23 (Telnet)
+sudo ufw deny 23
+🔹 Step 5: Test the Rule
+Try connecting to port 23 using telnet or an nmap scan:
+
+nmap -p 23 localhost
+🔴 Port should appear as filtered or closed.
+
+🔹 Step 6: Allow SSH (Port 22) [IMPORTANT for Remote Access]
+sudo ufw allow 22
+✅ Ensures remote access isn’t blocked.
+
+🔹 Step 7: Remove the Block Rule
+sudo ufw delete deny 23
+Restores firewall to original state.
+
+🔹 Step 8: List  Final Rules Again
+sudo ufw status verbose 
+
+
+->>Details of all the required commands and how it use .......
+🔹 sudo ufw status
+🔸 Checks if the UFW firewall is active and shows its current status.
+
+🔹 sudo apt update
+🔸 Updates the list of available software packages on your Kali system.
+
+🔹 sudo apt install ufw
+🔸 Installs the UFW (Uncomplicated Firewall) tool if it's not already installed.
+
+🔹 sudo ufw enable
+🔸 Turns on the firewall and starts blocking/allowing traffic as per rules.
+
+🔹 sudo ufw status numbered
+🔸 Lists all active firewall rules with numbers so you can identify and delete them later.
+
+🔹 sudo ufw deny 23
+🔸 Blocks incoming traffic on port 23 (used by Telnet) for security.
+
+🔹 nmap -p 23 localhost
+🔸 Scans your own system to check if port 23 is open or blocked.
+
+🔹 sudo ufw allow 22
+🔸 Allows traffic on port 22 (used for SSH) to ensure remote access works.
+
+🔹 nmap -p 22 localhost
+🔸 Scans your system to verify if port 22 is accessible after allowing it.
+
+🔹 sudo ufw delete deny 23
+🔸 Removes the firewall rule that blocked port 23 to restore the original state.
+
+🔹 sudo ufw status verbose
+🔸 Shows detailed firewall status including logging, default policies, and all rules.
