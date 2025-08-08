@@ -1,1 +1,172 @@
+# Cyber Security Internship - Task 4 Report
+
+Task: Setup and Use a Firewall on Kali Linux
+
+Performed On: Kali Linux running in VMware
+
+Objective:
+To configure and test basic firewall rules using UFW (Uncomplicated Firewall) to allow or block traffic on a Kali Linux system.
+
+Tools Used:
+- UFW (Uncomplicated Firewall)
+- Nmap (to scan and verify firewall rules)
+
+-------------------------------------------------------------
+Step-by-Step Procedure with Results
+-------------------------------------------------------------
+
+Step 1: Update the system and check UFW installation
+-----------------------------------------------------
+Command:
+  sudo apt update
+  sudo ufw status
+
+Output:
+  sudo: ufw: command not found
+
+Conclusion:
+  UFW was not installed, so we move to the installation step.
+
+-------------------------------------------------------------
+
+Step 2: Install UFW
+---------------------
+Command:
+  sudo apt install ufw
+
+Output:
+  Setting up ufw (0.36.2-9) ...
+  Created symlink '/etc/systemd/system/multi-user.target.wants/ufw.service' → '/usr/lib/systemd/system/ufw.service'.
+
+Conclusion:
+  UFW installed successfully.
+
+-------------------------------------------------------------
+
+Step 3: Enable the UFW firewall
+-------------------------------
+Command:
+  sudo ufw enable
+
+Output:
+  Firewall is active and enabled on system startup
+
+Conclusion:
+  UFW is now active and running.
+
+-------------------------------------------------------------
+
+Step 4: Check current firewall status and rules
+-----------------------------------------------
+Command:
+  sudo ufw status numbered
+
+Output:
+  Status: active
+
+Conclusion:
+  Firewall is enabled but no specific rules yet.
+
+-------------------------------------------------------------
+
+Step 5: Block inbound traffic on port 23 (Telnet)
+-------------------------------------------------
+Command:
+  sudo ufw deny 23
+
+Output:
+  Rule added
+  Rule added (v6)
+
+Conclusion:
+  All inbound connections to port 23 are now blocked.
+
+-------------------------------------------------------------
+
+Step 6: Test if port 23 is blocked using nmap
+---------------------------------------------
+Command:
+  nmap -p 23 localhost
+
+Output:
+  PORT   STATE  SERVICE
+  23/tcp closed telnet
+
+Conclusion:
+  Port 23 is closed, so the block rule is working.
+
+-------------------------------------------------------------
+
+Step 7: Allow SSH (port 22)
+----------------------------
+Command:
+  sudo ufw allow 22
+
+Output:
+  Rule added
+  Rule added (v6)
+
+Command:
+  nmap -p 22 localhost
+
+Output:
+  PORT   STATE  SERVICE
+  22/tcp closed ssh
+
+Conclusion:
+  Port 22 is also closed but rule was added to allow SSH access.
+
+-------------------------------------------------------------
+
+Step 8: Remove the rule blocking port 23
+----------------------------------------
+Command:
+  sudo ufw delete deny 23
+
+Output:
+  Rule deleted
+  Rule deleted (v6)
+
+Conclusion:
+  The block rule on port 23 has been removed.
+
+-------------------------------------------------------------
+
+Step 9: View final firewall rules and configuration
+----------------------------------------------------
+Command:
+  sudo ufw status verbose
+
+Output:
+  Status: active
+  Logging: on (low)
+  Default: deny (incoming), allow (outgoing), disabled (routed)
+  New profiles: skip
+
+  To                         Action      From
+  --                         ------      ----
+  22                         ALLOW IN    Anywhere                  
+  22 (v6)                    ALLOW IN    Anywhere (v6)             
+
+Conclusion:
+  Final rules are active. Only port 22 (SSH) is allowed. All other incoming ports are denied by default.
+
+-------------------------------------------------------------
+
+Summary: How UFW Filters Traffic
+--------------------------------
+UFW is a frontend for iptables and helps simplify firewall configuration on Linux systems. It filters network traffic by allowing or denying packets based on user-defined rules.
+
+- We blocked and tested Telnet traffic (port 23).
+- We allowed SSH traffic (port 22).
+- We tested using nmap to verify if ports were open or closed.
+- UFW’s default policy blocks all incoming traffic and allows outgoing traffic unless explicitly allowed.
+
+-------------------------------------------------------------
+
+Final Conclusion:
+-----------------
+The firewall on Kali Linux was configured and tested successfully using UFW. This task demonstrated essential firewall management skills useful for basic network security practices.
+
+
 
